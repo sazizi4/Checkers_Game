@@ -1,0 +1,151 @@
+{
+	"info": {
+		"_postman_id": "d1fde31a-7299-418f-ad34-b531c98a1f67",
+		"name": "Deck of Cards",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24513802"
+	},
+	"item": [
+		{
+			"name": "Confirm Site is up",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://deckofcardsapi.com/",
+					"protocol": "https",
+					"host": [
+						"deckofcardsapi",
+						"com"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create New Deck + Shuffle",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"deckId\", jsonData.deck_id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1",
+					"protocol": "https",
+					"host": [
+						"deckofcardsapi",
+						"com"
+					],
+					"path": [
+						"api",
+						"deck",
+						"new",
+						"shuffle",
+						""
+					],
+					"query": [
+						{
+							"key": "deck_count",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deal 3 Cards",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Check for Blakcjack",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Create a new request to check if player 1 has blackjack",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"// Check the response and extract the number of remaining cards",
+							"var jsonData = pm.response.json();",
+							"var remainingCards = jsonData.remaining;",
+							"",
+							"pm.environment.set(\"remainingCards\", remainingCards); // Store the remaining cards as an environment variable",
+							"pm.environment.set(\"player1HasBlackjack\", jsonData.piles.player1.remaining === 2); // Check if player 1 has blackjack",
+							"",
+							"//analyze cards deakt to each player and determine if any of them have a blackjack hand. Must implement details including defining the rules for a blackjack hand.",
+							"//Write out which player has blackjack and display the result indicating which player has a black jack hand. Must dtermine how to output the result and format messaging to indicate the winning player.",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://deckofcardsapi.com/api/deck/deckId/pile/player1/add/?cards=player1Cards",
+					"protocol": "https",
+					"host": [
+						"deckofcardsapi",
+						"com"
+					],
+					"path": [
+						"api",
+						"deck",
+						"deckId",
+						"pile",
+						"player1",
+						"add",
+						""
+					],
+					"query": [
+						{
+							"key": "cards",
+							"value": "player1Cards"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
