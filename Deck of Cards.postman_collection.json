@@ -50,5 +50,5 @@ function checkForBlackjack(cards) {
 
     return [hasAce, hasTenPointCard];
   // Implement logic to check if the given cards have a blackjack
-  // Return true or false based on the check
+  // Display blackjack
 }
